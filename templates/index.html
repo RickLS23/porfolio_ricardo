@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricardo Ledezma | Ingeniero IT/OT</title>
+    <meta name="description"
+        content="Portafolio de Ricardo Ledezma Sánchez, Ingeniero en Sistemas, Manufactura y Automatización.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><span class="resalto">RLS</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">Inicio</a></li>
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li><a href="#experiencia">Trayectoria</a></li>
+            <li><a href="#conocimientos">Conocimientos</a></li>
+            <li><a href="#certificaciones">Certificaciones</a></li>
+            <li><a href="#galeria3d">Diseño 3D</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero" class="seccion-pantalla">
+            <div id="carrusel-fondo">
+                {% for img in datos.carrusel_hero %}
+                <div class="slide {% if loop.first %}activo{% endif %}" style="background-image: url('{{ img }}');">
+                </div>
+                {% endfor %}
+                <div class="overlay-hero"></div>
+            </div>
+            <div class="hero-contenido fade-in">
+                <h1>Eficiencia Operativa <br>mediante <span class="resalto-brillante">Tecnología</span></h1>
+                <p>Ingeniero en Sistemas Computacionales (IT + OT). Especialista en desarrollo de software, integración
+                    SAP y manufactura inteligente.</p>
+                <a href="#contacto" class="btn-primario">Iniciemos un Proyecto</a>
+            </div>
+        </section>
+
+        <section id="proyectos" class="seccion bg-blanco">
+            <h2 class="titulo-seccion fade-in">Proyectos Destacados</h2>
+            <div class="grid-proyectos">
+                {% for proyecto in datos.proyectos %}
+                <article class="tarjeta-proyecto organica fade-in">
+                    <div class="imagen-proyecto" style="background-image: url('{{ proyecto.imagen }}');"></div>
+                    <div class="contenido-proyecto">
+                        <h3>{{ proyecto.titulo }}</h3>
+                        <p>{{ proyecto.descripcion }}</p>
+                        <div class="tags">
+                            {% for tech in proyecto.tecnologias %}
+                            <span class="tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <a href="{{ proyecto.link_github }}" target="_blank" class="btn-github">
+                            <i class="fab fa-github"></i> Link del proyecto
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="experiencia" class="seccion bg-claro">
+            <h2 class="titulo-seccion fade-in">Trayectoria Profesional</h2>
+            <div class="grid-experiencia">
+                {% for exp in datos.experiencia %}
+                <article class="tarjeta organica fade-in">
+                    <div class="tarjeta-header">
+                        <img src="{{ exp.logo }}" alt="Logo {{ exp.empresa }}" class="logo-entidad">
+                        <div>
+                            <h3>{{ exp.puesto }}</h3>
+                            <p class="empresa">{{ exp.empresa }} | {{ exp.periodo }}</p>
+                        </div>
+                    </div>
+                    <ul>
+                        {% for logro in exp.logros %}
+                        <li>{{ logro }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="conocimientos" class="seccion bg-blanco">
+            <h2 class="titulo-seccion fade-in">Conocimientos Técnicos</h2>
+            <div class="grid-tecnologias fade-in">
+                <div class="columna-tech tarjeta organica">
+                    <h3><span class="resalto">IT</span> (Software & Redes)</h3>
+                    <div class="tags">
+                        {% for tech in datos.habilidades_it %}
+                        <span class="tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="columna-tech tarjeta organica">
+                    <h3><span class="resalto">OT</span> (Manufactura & Automatización)</h3>
+                    <div class="tags">
+                        {% for tech in datos.habilidades_ot %}
+                        <span class="tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="certificaciones" class="seccion bg-blanco">
+            <h2 class="titulo-seccion fade-in" style="margin-top: 4rem;">Certificaciones</h2>
+            <div class="grid-experiencia">
+                {% for cert in datos.certificaciones %}
+                <article class="tarjeta organica tarjeta-cert fade-in">
+                    <img src="{{ cert.logo }}" onerror="this.src='https://ui-avatars.com/api/?name=Cert&background=ccc'"
+                        alt="Logo" class="logo-entidad">
+                    <div>
+                        <h3>{{ cert.titulo }}</h3>
+                        <p class="empresa">{{ cert.emisor }} ({{ cert.anio }})</p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="galeria3d" class="seccion bg-claro">
+            <h2 class="titulo-seccion fade-in">Diseño CAD Interactivo</h2>
+            <p class="fade-in subtitulo-3d">Explora mi modelo exportado de SolidWorks. Arrastra para rotar la pieza.</p>
+            <div id="contenedor-3d" class="visor-3d organico fade-in"></div>
+        </section>
+
+        <section id="contacto" class="seccion bg-blanco">
+            <h2 class="titulo-seccion fade-in">Trabajemos Juntos</h2>
+            <form id="form-contacto" class="formulario fade-in organica">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="correo" placeholder="Correo electrónico" required>
+                <textarea name="mensaje" rows="5" placeholder="¿Cómo puedo ayudarte a optimizar tus procesos?"
+                    required></textarea>
+                <button type="submit" class="btn-primario">Enviar Mensaje</button>
+                <div id="form-respuesta" class="respuesta-mensaje"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer-site">
+        <p>&copy; 2026 Ricardo Ledezma Sánchez. Ingeniero en Sistemas Computacionales.</p>
+    </footer>
+
+    <div class="botones-flotantes fade-in">
+        <a href="https://github.com/RickLS23" target="_blank" class="btn-flotante github"
+            aria-label="GitHub de Ricardo">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/ricardo-ledezma-sanchez-1847b9167" target="_blank"
+            class="btn-flotante linkedin" aria-label="LinkedIn de Ricardo">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://grabcad.com/ricardo.ledezma-3" target="_blank" class="btn-flotante grabcad"
+            aria-label="Grabcad de Ricardo">
+            <i class="fas fa-pencil-ruler"></i>
+        </a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
